@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket  = "geacco-app-tfstate-79eb25"
+    bucket  = "geacco-app-tfstate-test-79eb25"
     key     = "global/s3/state.tfstate"
     region  = "us-east-1"
     encrypt = true
