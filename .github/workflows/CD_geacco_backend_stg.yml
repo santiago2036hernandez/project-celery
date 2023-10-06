@@ -65,6 +65,7 @@ jobs:
 
       - name: Create Workspace for Terraform
         run: terraform workspace new stg 
+        working-directory: ./${{ env.WORKING_DIR }}
 
       - name: Select Terraform Workspace
         id: workspace
