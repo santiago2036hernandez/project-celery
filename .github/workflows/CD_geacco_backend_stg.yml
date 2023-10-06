@@ -56,53 +56,50 @@ jobs:
         run: |
           make build_and_deploy_celery_beat_image ECR_NAME=geacco_app_celery_beat ENVIRONMENT_SUFFIX=_stg ECR_TAG=$BASE_ECR_TAG ECR_REGISTRY=$REGISTRY
 
-      # - name: Terraform Init
-      #   id: init
-      #   run: terraform init
-      #   working-directory: ./${{ env.WORKING_DIR }}
+      - name: Terraform Init
+        id: init
+        run: terraform init
+        working-directory: ./${{ env.WORKING_DIR }}
 
-      # - name: Select Terraform Workspace
-      #   id: workspace
-      #   run: terraform workspace select stg
-      #   working-directory: ./${{ env.WORKING_DIR }}
+      - name: Select Terraform Workspace
+        id: workspace
+        run: terraform workspace select stg
+        working-directory: ./${{ env.WORKING_DIR }}
 
-      # - name: Terraform Validate
-      #   id: validate
-      #   run: terraform validate -no-color
-      #   working-directory: ./${{ env.WORKING_DIR }}
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+        working-directory: ./${{ env.WORKING_DIR }}
 
-      # - name: Terraform Plan
-      #   id: plan
-      #   env:
-      #     TF_VAR_IMAGE_TAG: ${{ github.sha }}
-      #     TF_VAR_IMAGE_TAG_NGINX: ${{ github.sha }}
-      #     TF_VAR_REPOSITORY_URL: ${{ steps.login-ecr.outputs.registry }}/geacco_app_stg
-      #     TF_VAR_REPOSITORY_URL_NGINX: ${{ steps.login-ecr.outputs.registry }}/geacco_app_nginx_stg
-      #     ##update to check
-      #     TF_VAR_IMAGE_TAG_CELERY_WORKER: ${{ github.sha }}
-      #     TF_VAR_REPOSITORY_URL_CELERY_WORKER: ${{ steps.login-ecr.outputs.registry }}/geacco_app_celery_worker_stg
-      #     TF_VAR_REPOSITORY_URL_CELERY_BEAT: ${{ steps.login-ecr.outputs.registry }}/geacco_app_celery_beat_stg
+      - name: Terraform Plan
+        id: plan
+        env:
+          TF_VAR_IMAGE_TAG: ${{ github.sha }}
+          TF_VAR_REPOSITORY_URL: ${{ steps.login-ecr.outputs.registry }}/geacco_app_stg
+          ##update to check
+          TF_VAR_IMAGE_TAG_CELERY_WORKER: ${{ github.sha }}
+          TF_VAR_REPOSITORY_URL_CELERY_WORKER: ${{ steps.login-ecr.outputs.registry }}/geacco_app_celery_worker_stg
+          TF_VAR_REPOSITORY_URL_CELERY_BEAT: ${{ steps.login-ecr.outputs.registry }}/geacco_app_celery_beat_stg
 
-      #   run: terraform plan -no-color -input=false
-      #   working-directory: ./${{ env.WORKING_DIR }}
-      #   continue-on-error: true
+        run: terraform plan -no-color -input=false
+        working-directory: ./${{ env.WORKING_DIR }}
+        continue-on-error: true
 
-      # - name: Terraform Plan Status
-      #   if: steps.plan.outcome == 'failure'
-      #   run: exit 1
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
 
-      # - name: Terraform Apply
-      #   env:
-      #     TF_VAR_IMAGE_TAG: ${{ github.sha }}
-      #     TF_VAR_IMAGE_TAG_NGINX: ${{ github.sha }}
-      #     TF_VAR_REPOSITORY_URL: ${{ steps.login-ecr.outputs.registry }}/geacco_app_stg
-      #     TF_VAR_REPOSITORY_URL_NGINX: ${{ steps.login-ecr.outputs.registry }}/geacco_app_nginx_stg
-      #     ##update to check
-      #     TF_VAR_IMAGE_TAG_CELERY_WORKER: ${{ github.sha }}
-      #     TF_VAR_REPOSITORY_URL_CELERY_WORKER: ${{ steps.login-ecr.outputs.registry }}/geacco_app_celery_worker_stg
-      #     TF_VAR_REPOSITORY_URL_CELERY_BEAT: ${{ steps.login-ecr.outputs.registry }}/geacco_app_celery_beat_stg
+      - name: Terraform Apply
+        env:
+          TF_VAR_IMAGE_TAG: ${{ github.sha }}
+          TF_VAR_IMAGE_TAG_NGINX: ${{ github.sha }}
+          TF_VAR_REPOSITORY_URL: ${{ steps.login-ecr.outputs.registry }}/geacco_app_stg
+          ##update to check
+          TF_VAR_IMAGE_TAG_CELERY_WORKER: ${{ github.sha }}
+          TF_VAR_REPOSITORY_URL_CELERY_WORKER: ${{ steps.login-ecr.outputs.registry }}/geacco_app_celery_worker_stg
+          TF_VAR_REPOSITORY_URL_CELERY_BEAT: ${{ steps.login-ecr.outputs.registry }}/geacco_app_celery_beat_stg
 
-      #   run: |
-      #     export TF_VAR_environment_server=stg
-      #     terraform apply -auto-approve -input=false
-      #   working-directory: ./${{ env.WORKING_DIR }}
+        run: |
+          export TF_VAR_environment_server=stg
+          terraform apply -auto-approve -input=false
+        working-directory: ./${{ env.WORKING_DIR }}
