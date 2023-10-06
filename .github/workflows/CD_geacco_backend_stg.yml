@@ -64,7 +64,11 @@ jobs:
         working-directory: ./${{ env.WORKING_DIR }}
 
       - name: Create Workspace for Terraform
-        run: terraform workspace new stg 
+        run: |
+          workspace_name="stg"
+          if ! terraform workspace list | grep -q "$workspace_name"; then
+          terraform workspace new "$workspace_name"
+          fi
         working-directory: ./${{ env.WORKING_DIR }}
 
       - name: Select Terraform Workspace
