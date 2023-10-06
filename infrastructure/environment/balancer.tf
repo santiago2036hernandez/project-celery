@@ -83,7 +83,7 @@ resource "aws_lb_listener" "base_project_alb_listener_https" { # Copy
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
-  certificate_arn   = "arn:aws:acm:us-east-1:805389546304:certificate/2b2dae1d-71ce-4c26-a766-590a72892ae6"
+  certificate_arn   = "arn:aws:acm-pca:us-east-1:460314545847:certificate-authority/cc6f8c5d-3b53-4edc-9676-176ff89d56a9"
 
   default_action {
     target_group_arn = "${aws_lb_target_group.base_project_alb_target_group.id}"
