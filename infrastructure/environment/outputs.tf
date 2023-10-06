@@ -1,6 +1,6 @@
-output "base_ecr_ui" {
-  value = module.base_project_ECR.ecr_uri
-}
+# output "base_ecr_ui" {
+#   value = module.base_project_ECR.ecr_uri
+# }
 
 output "web_public_ip" {
   description = "The public IP address of the web server"
