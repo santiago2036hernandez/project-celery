@@ -165,4 +165,5 @@ variable "prod_domain_name" {
 
 variable "TASK_HOST_PORT" {
   type = string
+  default = 0
 }
