@@ -37,7 +37,7 @@ build_push:
 	docker push $(registry)/abclick:latest
 
 build_and_deploy_image:
-	docker build -t ${ECR_REGISTRY}/${ECR_NAME}${ENVIRONMENT_SUFFIX}:$(ECR_TAG) -f Dockerfile.environment .
+	docker build -t ${ECR_REGISTRY}/${ECR_NAME}${ENVIRONMENT_SUFFIX}:$(ECR_TAG) -f dockerfile .
 	@echo "Project image built!"
 
 	docker push ${ECR_REGISTRY}/${ECR_NAME}${ENVIRONMENT_SUFFIX}:$(ECR_TAG)
